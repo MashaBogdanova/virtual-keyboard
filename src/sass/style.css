@@ -2,12 +2,37 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  justify-content: center;
+  align-items: center;
 }
 
 .text,
 .keyboard {
-  border: solid 2px cornflowerblue;
+  border: solid 0.3em #888b8d;
+  border-radius: 0.5em;
+  text-align: center;
+}
+
+.keyboard {
+  width: 50vw;
+  height: 25vh;
+  padding: 4em 4em 8em;
+  background: #cccccc;
+  box-shadow: 0 0.5em 0 #888b8d;
+}
+
+.keyboard__row {
+  width: 100%;
+}
+
+.keyboard__button {
+  height: 3.2em;
+  width: 3.2em;
+  margin: 0.25em;
+  line-height: 3.2em;
+  text-align: center;
+  color: #ffffff;
+  background-color: #53565a;
+  box-shadow: 0 2px 0 #888b8d;
 }
 
 /*# sourceMappingURL=style.css.map */
