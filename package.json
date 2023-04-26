@@ -1,10 +1,10 @@
 {
   "name": "virtual-keyboard",
   "version": "1.0.0",
-  "dependencies": {
-    "webpack": "^5.80.0"
-  },
   "scripts": {
-    "style": "sass --watch virtual-keyboard/src/sass/style.scss virtual-keyboard/src/sass/style.css"
+    "style": "sass --watch src/sass/style.scss src/sass/style.css"
+  },
+  "devDependencies": {
+    "eslint": "^8.39.0"
   }
 }
