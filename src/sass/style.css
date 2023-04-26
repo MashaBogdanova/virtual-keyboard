@@ -7,16 +7,27 @@
 
 .text,
 .keyboard {
-  border: solid 0.3em #888b8d;
+  border: solid 0.3rem #888b8d;
   border-radius: 0.5em;
   text-align: center;
+  background: #cccccc;
+  color: #ffffff;
+}
+
+.text {
+  display: flex;
+  min-width: 40vw;
+  min-height: 10vh;
+  margin-bottom: 4vh;
+  font-size: 3em;
+  text-align: center;
+  overflow: auto;
 }
 
 .keyboard {
   width: 50vw;
   height: 25vh;
   padding: 4em 4em 8em;
-  background: #cccccc;
   box-shadow: 0 0.5em 0 #888b8d;
 }
 
@@ -30,9 +41,13 @@
   margin: 0.25em;
   line-height: 3.2em;
   text-align: center;
-  color: #ffffff;
   background-color: #53565a;
   box-shadow: 0 2px 0 #888b8d;
+}
+
+.keyboard__button_pressed {
+  background-color: #ffd100;
+  box-shadow: none;
 }
 
 /*# sourceMappingURL=style.css.map */
