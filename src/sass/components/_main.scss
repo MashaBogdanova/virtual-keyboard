@@ -1,3 +1,5 @@
+@import "../abstracts/constants";
+
 .body {
   display: flex;
   flex-direction: column;
@@ -7,30 +9,34 @@
 
 .text,
 .keyboard {
-  border: solid 0.3rem #888b8d;
+  border: solid 0.3rem $color-dark-m;
   border-radius: 0.5em;
   text-align: center;
 }
 
+// Text
 .text {
   display: flex;
   min-width: 40vw;
   min-height: 10vh;
   margin-bottom: 4vh;
   padding: 1em;
+
   font-size: 3em;
-  color: #888b8d;
+  color: $color-dark-m;
   text-align: center;
   overflow: auto;
 }
 
+// Keyboard
 .keyboard {
   width: 50vw;
   height: 25vh;
   padding: 4em 4em 8em;
-  background: #cccccc;
-  color: #ffffff;
-  box-shadow: 0 0.5em 0 #888b8d;
+
+  background: $color-dark-xs;
+  color: $color-text;
+  box-shadow: 0 0.5em 0 $color-dark-m;
 }
 
 .keyboard__row {
@@ -40,16 +46,31 @@
 .keyboard__button {
   height: 3.2em;
   width: 3.2em;
-  margin: 0.25em;
+  margin: .25em;
+
   line-height: 3.2em;
   text-align: center;
   background-color: #53565a;
-  box-shadow: 0 2px 0 #888b8d;
+  box-shadow: 0 2px 0 $color-dark-m;
+}
+
+.keyboard__button_s {
+
+}
+
+.keyboard__button_m {
+
+}
+
+.keyboard__button_l {
+
+}
+
+.keyboard__button_xl {
+
 }
 
 .keyboard__button_pressed {
-  background-color: #ffd100;
+  background-color: $color-pressed-btn;
   box-shadow: none;
 }
-
-/*# sourceMappingURL=style.css.map */

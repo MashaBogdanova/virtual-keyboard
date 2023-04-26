@@ -1,3 +1,6 @@
+let text = null;
+let resultString = ``;
+
 window.onload = function () {
     createComponent();
     keydownHandler();
@@ -7,7 +10,7 @@ function createComponent () {
     const body = document.getElementsByTagName("body")[0];
     body.classList.add("body");
 
-    const text = document.createElement("section");
+    text = document.createElement("section");
     text.classList.add("text");
     body.append(text);
 
@@ -17,5 +20,8 @@ function createComponent () {
 }
 
 function keydownHandler () {
-    document.addEventListener("keydown", (e) => console.log(e.key));
+    document.addEventListener("keydown", (e) => {
+        resultString += e.key;
+        text.innerHTML = resultString;
+    });
 }
