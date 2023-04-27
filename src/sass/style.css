@@ -1,9 +1,9 @@
 /* Error: Undefined variable.
  *    ,
- * 26 |   color: $color-dark-;
- *    |          ^^^^^^^^^^^^
+ * 12 |   border: solid 0.3rem $color-dark-m;
+ *    |                        ^^^^^^^^^^^^^
  *    '
- *   components/_main.scss 26:10  @import
+ *   components/_main.scss 12:24  @import
  *   style.scss 2:9               root stylesheet */
 
 body::before {
@@ -14,5 +14,5 @@ body::before {
   padding: 1em;
   margin-bottom: 1em;
   border-bottom: 2px solid black;
-  content: "Error: Undefined variable.\a    \2577 \a 26 \2502    color: $color-dark-;\a    \2502           ^^^^^^^^^^^^\a    \2575 \a   components/_main.scss 26:10  @import\a   style.scss 2:9               root stylesheet";
+  content: "Error: Undefined variable.\a    \2577 \a 12 \2502    border: solid 0.3rem $color-dark-m;\a    \2502                         ^^^^^^^^^^^^^\a    \2575 \a   components/_main.scss 12:24  @import\a   style.scss 2:9               root stylesheet";
 }
