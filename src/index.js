@@ -2,15 +2,17 @@ const keyboardEngKeys = [
     ['§', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
     ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'Enter'],
     ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", '\\'],
-    ['Shift', ']', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', 'ArrowUp', 'Shift'],
+    ['Shift', '`', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'ArrowUp', 'Shift'],
     ['Control', 'Alt', 'Meta', ' ', 'Meta', 'Alt', 'ArrowLeft', 'ArrowDown', 'ArrowRight']
 ]
 
 let text = null;
+let keyboard = null;
 let resultString = ``;
 
 window.onload = function () {
     createComponent();
+    symbolClickHandler();
     keydownHandler();
 }
 
@@ -24,7 +26,7 @@ function createComponent () {
     body.append(text);
 
     // Keyboard
-    const keyboard = document.createElement("section");
+    keyboard = document.createElement("section");
     keyboard.classList.add("keyboard");
 
     keyboardEngKeys.forEach((row) => {
@@ -45,21 +47,22 @@ function createComponent () {
     body.append(keyboard);
 }
 
+function symbolClickHandler() {
+    keyboard.addEventListener("click", (e) => {
+        highlightPressedBtn(e.target.id.length === 1 ? document.getElementById(e.target.id.toLowerCase()) : document.getElementById(e.target.id));
+        addSymbolToText(e.target.id);
+    })
+}
+
 function keydownHandler () {
-    // let row = [];
-    // document.onkeydown = function (e) {
-    //     row.push(e.key)
-    //     console.log(row)
-    // }
+    let row = [];
+    document.onkeydown = function (e) {
+        row.push(e.key)
+        console.log(row)
+    }
     document.addEventListener("keydown", (e) => {
-        highlightPressedBtn(document.getElementById(e.key));
-        if (e.key.length === 1) {
-            resultString += e.key;
-            text.innerHTML = resultString;
-        } else if (e.key === "Backspace") {
-            resultString = resultString.slice(0, -1);
-            text.innerHTML = resultString;
-        }
+        highlightPressedBtn(e.key.length === 1 ? document.getElementById(e.key.toLowerCase()) : document.getElementById(e.key));
+        addSymbolToText(e.key);
     });
 }
 
@@ -68,4 +71,14 @@ function highlightPressedBtn(btn) {
     setTimeout(() => {
         btn.classList.remove("keyboard__button_pressed");
     }, 200)
+}
+
+function addSymbolToText(symb) {
+    if (symb.length === 1) {
+        resultString += symb;
+        text.innerHTML = resultString;
+    } else if (symb === "Backspace") {
+        resultString = resultString.slice(0, -1);
+        text.innerHTML = resultString;
+    }
 }
