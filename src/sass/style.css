@@ -1,18 +1,59 @@
-/* Error: Undefined variable.
- *    ,
- * 12 |   border: solid 0.3rem $color-dark-m;
- *    |                        ^^^^^^^^^^^^^
- *    '
- *   components/_main.scss 12:24  @import
- *   style.scss 2:9               root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Undefined variable.\a    \2577 \a 12 \2502    border: solid 0.3rem $color-dark-m;\a    \2502                         ^^^^^^^^^^^^^\a    \2575 \a   components/_main.scss 12:24  @import\a   style.scss 2:9               root stylesheet";
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
 }
+
+.text,
+.keyboard {
+  border-radius: 0.5em;
+  text-align: center;
+}
+
+.text {
+  display: flex;
+  min-width: 40vw;
+  min-height: 10vh;
+  margin-bottom: 4vh;
+  padding: 1em;
+  font-size: 3em;
+  color: #888888;
+  text-align: center;
+  overflow: auto;
+}
+
+.keyboard {
+  width: 50vw;
+  height: 25vh;
+  padding: 1em 1em 2em;
+  background: linear-gradient(95.15deg, rgba(255, 255, 255, 0.3) 2.86%, rgba(255, 255, 255, 0) 30.59%, rgba(255, 255, 255, 0.3) 48.18%, rgba(255, 255, 255, 0.243) 64.3%, rgba(255, 255, 255, 0.3) 96.67%), #c4c4c4;
+  color: #888888;
+  box-shadow: 0 0.5em 0 rgba(255, 255, 255, 0.25);
+}
+
+.keyboard__row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 19%;
+}
+
+.keyboard__button {
+  width: 160px;
+  height: 100%;
+  margin: 0.25em;
+  font-size: 32px;
+  color: #888888;
+  text-align: center;
+  background-color: #f1f1ef;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 0px 3px rgba(0, 0, 0, 0.45), inset 0px 3px 0px #ffffff;
+  border-radius: 8px;
+}
+
+.keyboard__button_pressed {
+  background-color: greenyellow;
+  box-shadow: none;
+}
+
+/*# sourceMappingURL=style.css.map */

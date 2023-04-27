@@ -9,7 +9,6 @@
 
 .text,
 .keyboard {
-  border: solid 0.3rem $color-dark-m;
   border-radius: 0.5em;
   text-align: center;
 }
@@ -23,7 +22,7 @@
   padding: 1em;
 
   font-size: 3em;
-  color: $color-dark-;
+  color: $color-text;
   text-align: center;
   overflow: auto;
 }
@@ -32,26 +31,32 @@
 .keyboard {
   width: 50vw;
   height: 25vh;
-  padding: 4em 4em 8em;
+  padding: 1em 1em 2em;
 
-  background: $color-dark-xs;
+  background: $color-keyboard-background;
   color: $color-text;
-  box-shadow: 0 0.5em 0 $color-dark-m;
+  box-shadow: 0 0.5em 0 $color-keyboard-shadow;
 }
 
 .keyboard__row {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
+  height: 19%;
 }
 
 .keyboard__button {
-  height: 3.2em;
-  width: 3.2em;
-  margin: .25em;
+  width: 160px;
+  height: 100%;
+  margin: 0.25em;
 
-  line-height: 3.2em;
+  font-size: 32px;
+  color: $color-text;
+
   text-align: center;
-  background-color: #53565a;
-  box-shadow: 0 2px 0 $color-dark-m;
+  background-color: $color-btn-background;
+  box-shadow: $color-btn-shadow;
+  border-radius: 8px;
 }
 
 .keyboard__button_s {
@@ -71,6 +76,6 @@
 }
 
 .keyboard__button_pressed {
-  background-color: $color-pressed-btn;
+  background-color: greenyellow;
   box-shadow: none;
 }
