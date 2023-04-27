@@ -1,5 +1,5 @@
 const keyboardEngKeys = [
-    ['§', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
+    ['§£', '1!', '2@', '3#', '4$', '5%', '6^', '7&', '8*', '9(', '0)', '-_', '=+', 'Backspace'],
     ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'Enter'],
     ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", '\\'],
     ['Shift', '`', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'ArrowUp', 'Shift'],
@@ -16,7 +16,7 @@ window.onload = function () {
     keydownHandler();
 }
 
-function createComponent () {
+function createComponent() {
     const body = document.getElementsByTagName("body")[0];
     body.classList.add("body");
 
@@ -37,7 +37,37 @@ function createComponent () {
             let keyboardBtn = document.createElement("button");
             keyboardBtn.classList.add("keyboard__button");
             keyboardBtn.setAttribute("id", btn);
-            keyboardBtn.innerHTML = btn;
+
+            if (btn === " ") {
+                keyboardBtn.classList.add("keyboard__button_l");
+            } else if (btn === "ArrowUp") {
+                keyboardBtn.innerHTML = '⇧';
+            } else if (btn === "ArrowRight") {
+                keyboardBtn.innerHTML = '⇨';
+            } else if (btn === "ArrowDown") {
+                keyboardBtn.innerHTML = '⇩';
+            } else if (btn === "ArrowLeft") {
+                keyboardBtn.innerHTML = '⇦';
+            } else if (btn.length === 1) {
+                keyboardBtn.innerHTML = btn;
+            } else if (btn.length === 2) {
+                // Button primary symbol
+                let btnSymbols = btn.split("");
+                let btnPrimarySymbol = document.createElement("span");
+                btnPrimarySymbol.innerHTML = btnSymbols[0];
+
+                // Button secondary symbol
+                let btnSecondarySymbol = document.createElement("span");
+                btnSecondarySymbol.classList.add("keyboard__secondary-symbol");
+                btnSecondarySymbol.innerHTML = btnSymbols[1];
+
+                keyboardBtn.append(btnSecondarySymbol);
+                keyboardBtn.append(btnPrimarySymbol);
+            } else {
+                keyboardBtn.innerHTML = btn;
+                keyboardBtn.classList.add("keyboard__button_m");
+            }
+
             keyboardRow.append(keyboardBtn);
         })
 
@@ -54,7 +84,7 @@ function symbolClickHandler() {
     })
 }
 
-function keydownHandler () {
+function keydownHandler() {
     let row = [];
     document.onkeydown = function (e) {
         row.push(e.key)
