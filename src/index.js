@@ -159,7 +159,7 @@ function addSymbolToText(key) {
     if (key.length === 1) {
         if (resultString.length === 0) {
             resultString += key;
-            text.innerHTML = resultString.shift();
+            text.innerHTML = resultString.slice(1, resultString.length);
         } else {
             resultString += key;
             text.innerHTML = resultString;
