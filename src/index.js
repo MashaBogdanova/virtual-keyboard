@@ -118,7 +118,7 @@ function keydownHandler() {
     document.addEventListener("keydown", (e) => {
         highlightPressedBtn(e.key);
 
-        if (e.key === "Meta") {
+        if (e.key === "CapsLock") {
             changeLanguage();
         } else {
             addSymbolToText(e.key);
