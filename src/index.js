@@ -53,7 +53,9 @@ function createComponent() {
         row.forEach((btn) => {
             let keyboardBtn = document.createElement("button");
             keyboardBtn.classList.add("keyboard__button");
-            keyboardBtn.setAttribute("id", btn);
+            btn.length === 2
+                ? keyboardBtn.setAttribute("id", btn[0])
+                : keyboardBtn.setAttribute("id", btn);
 
             if (btn === " ") {
                 keyboardBtn.classList.add("keyboard__button_l");
@@ -96,7 +98,6 @@ function createComponent() {
                 keyboardRow.append(keyboardBtn);
             }
         })
-
         keyboard.append(keyboardRow);
     })
 
@@ -111,11 +112,12 @@ function symbolClickHandler() {
 }
 
 function keydownHandler() {
-    document.onkeydown = function (e) {
-        console.log(e.code, e.key)
-    }
+    // document.onkeydown = function (e) {
+    //     console.log(e.code, e.key)
+    // }
     document.addEventListener("keydown", (e) => {
         highlightPressedBtn(e.key);
+
         if (e.key === "Meta") {
             changeLanguage();
         } else {
@@ -141,19 +143,24 @@ function changeLanguage() {
     }
 }
 
-function highlightPressedBtn(btn) {
-    btn.length === 1 ? btn = document.getElementById(btn.toLowerCase()) : btn = document.getElementById(btn);
-    btn.classList.add("keyboard__button_pressed");
+function highlightPressedBtn(btnKey) {
+    let btnElem = null;
+    btnKey.length === 1
+        ? btnElem = document.getElementById(btnKey.toLowerCase())
+        : btnElem = document.getElementById(btnKey);
+
+    btnElem.classList.add("keyboard__button_pressed");
     setTimeout(() => {
-        btn.classList.remove("keyboard__button_pressed");
+        btnElem.classList.remove("keyboard__button_pressed");
     }, 200)
 }
 
-function addSymbolToText(symb) {
-    if (symb.length === 1) {
-        resultString += symb;
+function addSymbolToText(key) {
+    console.log(key)
+    if (key.length === 1) {
+        resultString += key;
         text.innerHTML = resultString;
-    } else if (symb === "Backspace") {
+    } else if (key === "Backspace") {
         resultString = resultString.slice(0, -1);
         text.innerHTML = resultString;
     }
