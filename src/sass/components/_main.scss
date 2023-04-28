@@ -75,6 +75,7 @@
 
 .keyboard__button_m {
   width: 180px;
+
 }
 
 .keyboard__button_l {
@@ -88,4 +89,13 @@
 
 .keyboard__secondary-symbol {
   font-size: 20px;
+}
+
+.keyboard__arrows-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  > button {
+    height: 46px;
+  }
 }

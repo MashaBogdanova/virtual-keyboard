@@ -2,21 +2,22 @@ const keyboardEngKeys = [
     ['§£', '1!', '2@', '3#', '4$', '5%', '6^', '7&', '8*', '9(', '0)', '-_', '=+', 'Backspace'],
     ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'Enter'],
     ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", '\\'],
-    ['Shift', '`', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'ArrowUp', 'Shift'],
-    ['Control', 'Alt', 'Meta', ' ', 'Meta', 'Alt', 'ArrowLeft', 'ArrowDown', 'ArrowRight']
+    ['Shift', '`', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'Shift'],
+    ['Control', 'Alt', 'Meta', ' ', 'Meta', 'Alt', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight']
 ];
 const keyboardRusKeys = [
     ['§£', '1!', '2@', '3#', '4$', '5%', '6^', '7&', '8*', '9(', '0)', '-_', '=+', 'Backspace'],
     ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'Enter'],
     ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'ё'],
-    ['Shift', ']', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', 'ArrowUp', 'Shift'],
-    ['Control', 'Alt', 'Meta', ' ', 'Meta', 'Alt', 'ArrowLeft', 'ArrowDown', 'ArrowRight']
+    ['Shift', ']', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', 'Shift'],
+    ['Control', 'Alt', 'Meta', ' ', 'Meta', 'Alt', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight']
 ];
 
 let text = null;
 let keyboard = null;
 let language = "en";
 let keyboardKeys = null;
+let arrowsWrapper = null;
 let resultString = ``;
 
 window.onload = function () {
@@ -56,14 +57,18 @@ function createComponent() {
 
             if (btn === " ") {
                 keyboardBtn.classList.add("keyboard__button_l");
-            } else if (btn === "ArrowUp") {
-                keyboardBtn.innerHTML = '⇧';
-            } else if (btn === "ArrowRight") {
-                keyboardBtn.innerHTML = '⇨';
-            } else if (btn === "ArrowDown") {
-                keyboardBtn.innerHTML = '⇩';
             } else if (btn === "ArrowLeft") {
                 keyboardBtn.innerHTML = '⇦';
+            } else if (btn === "ArrowUp") {
+                keyboardBtn.innerHTML = '⇧';
+                arrowsWrapper = document.createElement("div");
+                arrowsWrapper.classList.add("keyboard__arrows-wrapper");
+                arrowsWrapper.append(keyboardBtn);
+            } else if (btn === "ArrowDown") {
+                keyboardBtn.innerHTML = '⇩';
+                arrowsWrapper.append(keyboardBtn);
+            } else if (btn === "ArrowRight") {
+                keyboardBtn.innerHTML = '⇨';
             } else if (btn.length === 1) {
                 keyboardBtn.innerHTML = btn;
                 keyboardBtn.classList.add("keyboard__letter");
@@ -85,7 +90,11 @@ function createComponent() {
                 keyboardBtn.classList.add("keyboard__button_m");
             }
 
-            keyboardRow.append(keyboardBtn);
+            if (arrowsWrapper && keyboardBtn.id !== "ArrowRight") {
+                keyboardRow.append(arrowsWrapper);
+            } else {
+                keyboardRow.append(keyboardBtn);
+            }
         })
 
         keyboard.append(keyboardRow);
@@ -102,9 +111,9 @@ function symbolClickHandler() {
 }
 
 function keydownHandler() {
-    // document.onkeydown = function (e) {
-    //     console.log(e.code, e.key)
-    // }
+    document.onkeydown = function (e) {
+        console.log(e.code, e.key)
+    }
     document.addEventListener("keydown", (e) => {
         highlightPressedBtn(e.key);
         if (e.key === "Meta") {

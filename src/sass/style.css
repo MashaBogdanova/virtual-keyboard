@@ -79,4 +79,13 @@
   font-size: 20px;
 }
 
+.keyboard__arrows-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.keyboard__arrows-wrapper > button {
+  height: 46px;
+}
+
 /*# sourceMappingURL=style.css.map */
