@@ -20,6 +20,8 @@
   font-size: 3em;
   color: #888888;
   text-align: center;
+  border: 5px solid #dddddd;
+  resize: none;
   overflow: auto;
 }
 

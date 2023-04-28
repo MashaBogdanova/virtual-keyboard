@@ -38,7 +38,7 @@ function createComponent() {
     body.classList.add("body");
 
     // Text
-    text = document.createElement("section");
+    text = document.createElement("textarea");
     text.classList.add("text");
     body.append(text);
 
@@ -156,13 +156,14 @@ function highlightPressedBtn(btnKey) {
 }
 
 function addSymbolToText(key) {
-    console.log(key)
     if (key.length === 1) {
-        resultString += key;
-        text.innerHTML = resultString;
-    } else if (key === "Backspace") {
-        resultString = resultString.slice(0, -1);
-        text.innerHTML = resultString;
+        if (resultString.length === 0) {
+            resultString += key;
+            text.innerHTML = resultString.shift();
+        } else {
+            resultString += key;
+            text.innerHTML = resultString;
+        }
     }
 }
 
