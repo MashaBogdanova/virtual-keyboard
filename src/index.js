@@ -56,6 +56,12 @@ function createComponent() {
     text.classList.add("text");
     body.append(text);
 
+    // Change language message
+    let message = document.createElement("section");
+    message.innerHTML = "Press Shift + Command to change the language";
+    message.classList.add("change-language-message");
+    body.append(message);
+
     // Keyboard
     keyboard = document.createElement("section");
     keyboard.classList.add("keyboard");

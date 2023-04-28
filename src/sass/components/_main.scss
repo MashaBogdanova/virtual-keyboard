@@ -18,7 +18,7 @@
   display: flex;
   min-width: 40vw;
   min-height: 10vh;
-  margin-bottom: 4vh;
+  margin-bottom: 2vh;
   padding: 1em;
 
   font-size: 3em;
@@ -28,6 +28,16 @@
   border: 5px solid #dddddd;
   resize: none;
   overflow: auto;
+}
+
+// Change language message
+.change-language-message {
+  width: 1572px;
+  font-size: 20px;
+  color: $color-text;
+  align-self: center;
+  text-align: end;
+  font-style: italic;
 }
 
 // Keyboard
