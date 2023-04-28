@@ -102,17 +102,16 @@ function symbolClickHandler() {
 }
 
 function keydownHandler() {
-    document.onkeydown = function (e) {
-        console.log(e.code, e.key)
-    }
+    // document.onkeydown = function (e) {
+    //     console.log(e.code, e.key)
+    // }
     document.addEventListener("keydown", (e) => {
-        if (e.key === "CapsLock") {
+        highlightPressedBtn(e.key);
+        if (e.key === "Meta") {
             changeLanguage();
         } else {
-            highlightPressedBtn(e.key);
             addSymbolToText(e.key);
         }
-
     });
 }
 

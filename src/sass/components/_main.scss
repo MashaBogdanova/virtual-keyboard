@@ -69,6 +69,8 @@
   box-shadow: $color-btn-shadow;
   border: none;
   border-radius: 8px;
+
+  transition: all 400ms ease-out;
 }
 
 .keyboard__button_m {
@@ -80,7 +82,7 @@
 }
 
 .keyboard__button_pressed {
-  background-color: greenyellow;
+  background-color: $color-btn-pressed;
   box-shadow: none;
 }
 
