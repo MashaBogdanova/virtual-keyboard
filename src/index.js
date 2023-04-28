@@ -12,6 +12,21 @@ const keyboardRusKeys = [
     ['Shift', ']', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', 'Shift'],
     ['Control', 'Alt', 'Meta', ' ', 'Meta', 'Alt', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight']
 ];
+const specialSymbols = {
+    "£": "§",
+    "!": "1",
+    "@": "2",
+    "#": "3",
+    "$": "4",
+    "%": "5",
+    "^": "6",
+    "&": "7",
+    "*": "8",
+    "(": "9",
+    ")": "0",
+    "_": "-",
+    "+": "="
+}
 
 let text = null;
 let keyboard = null;
@@ -27,11 +42,10 @@ window.onload = function () {
 }
 
 function createComponent() {
-    if (language === "en") {
-        keyboardKeys = keyboardEngKeys;
-    } else if (language === "ru") {
-        keyboardKeys = keyboardRusKeys;
-    }
+    language === "en"
+        ? keyboardKeys = keyboardEngKeys
+        : keyboardKeys = keyboardRusKeys;
+
 
     // Body
     const body = document.getElementsByTagName("body")[0];
@@ -117,8 +131,7 @@ function keydownHandler() {
     // }
     document.addEventListener("keydown", (e) => {
         highlightPressedBtn(e.key);
-
-        if (e.key === "CapsLock") {
+        if (e.shiftKey && e.key === "Meta") {
             changeLanguage();
         } else {
             addSymbolToText(e.key);
@@ -136,18 +149,19 @@ function changeLanguage() {
         }
     });
 
-    if (language === 'ru') {
-        language = 'en';
-    } else {
-        language = 'ru';
-    }
+    language === 'ru' ? language = 'en' : language = 'ru';
 }
 
 function highlightPressedBtn(btnKey) {
     let btnElem = null;
-    btnKey.length === 1
-        ? btnElem = document.getElementById(btnKey.toLowerCase())
-        : btnElem = document.getElementById(btnKey);
+    if (btnKey.length === 1) {
+        if (btnKey.match(/[£!@#$%^&*()_+]/)) {
+            btnKey = specialSymbols[btnKey];
+        }
+        btnElem = document.getElementById(btnKey.toLowerCase());
+    } else {
+        btnElem = document.getElementById(btnKey);
+    }
 
     btnElem.classList.add("keyboard__button_pressed");
     setTimeout(() => {
