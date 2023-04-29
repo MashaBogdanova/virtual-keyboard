@@ -134,12 +134,12 @@ function symbolClickHandler() {
 }
 
 function keydownHandler() {
-    // document.onkeydown = function (e) {
-    //     console.log(e.code, e.key)
-    // }
+    document.onkeydown = function (e) {
+        console.log(e.code)
+    }
     document.addEventListener("keydown", (e) => {
         highlightPressedBtn(e.key);
-        if (e.shiftKey && e.key === "Meta") {
+        if (e.ctrlKey && e.key === " ") {
             changeLanguage();
         } else {
             addSymbolToText(e.key);
