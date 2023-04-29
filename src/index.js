@@ -129,20 +129,20 @@ function createComponent() {
 function symbolClickHandler() {
     keyboard.addEventListener("click", (e) => {
         highlightPressedBtn(e.target.id);
-        addSymbolToText(e.target.id);
+        addSymbolToText(e, e.target.id);
     })
 }
 
 function keydownHandler() {
     document.onkeydown = function (e) {
-        console.log(e.code)
+        console.log(e.key)
     }
     document.addEventListener("keydown", (e) => {
         highlightPressedBtn(e.key);
         if (e.ctrlKey && e.key === " ") {
             changeLanguage();
         } else {
-            addSymbolToText(e.key);
+            addSymbolToText(e, e.key);
         }
     });
 }
@@ -178,7 +178,7 @@ function highlightPressedBtn(btnKey) {
     }, 200)
 }
 
-function addSymbolToText(key) {
+function addSymbolToText(e, key) {
     if (key.length === 1) {
         if (resultString.length === 0) {
             resultString += key;
@@ -187,6 +187,10 @@ function addSymbolToText(key) {
             resultString += key;
             text.innerHTML = resultString;
         }
+    } else if (e.key === "Tab") {
+        e.preventDefault();
+        resultString += "    ";
+        text.value = resultString;
     }
 }
 
