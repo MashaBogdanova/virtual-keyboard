@@ -60,7 +60,7 @@ function createComponent() {
 
     // Change language message
     let message = document.createElement("section");
-    message.innerHTML = "Press Shift + Command to change the language";
+    message.innerHTML = "Press Control + Space to change the language";
     message.classList.add("change-language-message");
     body.append(message);
 
