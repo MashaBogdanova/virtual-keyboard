@@ -30,19 +30,21 @@ const specialSymbols = {
 
 let text = null;
 let keyboard = null;
-let language = "en";
 let keyboardKeys = null;
 let arrowsWrapper = null;
 let resultString = ``;
 
 window.onload = function () {
+    if (!localStorage.getItem("keyboardLanguage")) {
+        localStorage.setItem("keyboardLanguage", "en");
+    }
     createComponent();
     symbolClickHandler();
     keydownHandler();
 }
 
 function createComponent() {
-    language === "en"
+    localStorage.getItem("keyboardLanguage") === "en"
         ? keyboardKeys = keyboardEngKeys
         : keyboardKeys = keyboardRusKeys;
 
@@ -148,14 +150,15 @@ function keydownHandler() {
 function changeLanguage() {
     const letters = document.querySelectorAll(".keyboard__letter");
     letters.forEach((letter) => {
-        if (language === 'ru') {
-            rerenderKeyboard(keyboardRusKeys, keyboardEngKeys, letter);
-        } else {
+        if (localStorage.getItem("keyboardLanguage") === 'en') {
             rerenderKeyboard(keyboardEngKeys, keyboardRusKeys, letter);
+        } else {
+            rerenderKeyboard(keyboardRusKeys, keyboardEngKeys, letter);
         }
     });
-
-    language === 'ru' ? language = 'en' : language = 'ru';
+    localStorage.getItem("keyboardLanguage") === "en"
+        ? localStorage.setItem("keyboardLanguage", "ru")
+        : localStorage.setItem("keyboardLanguage", "en");
 }
 
 function highlightPressedBtn(btnKey) {
