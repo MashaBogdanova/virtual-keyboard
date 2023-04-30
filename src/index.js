@@ -57,6 +57,7 @@ function createComponent() {
     text = document.createElement("textarea");
     text.classList.add("text");
     text.setAttribute("autofocus", "true");
+    // text.setAttribute("readonly", "true");
     body.append(text);
 
     // Change language message
@@ -130,20 +131,18 @@ function createComponent() {
 function symbolClickHandler() {
     keyboard.addEventListener("click", (e) => {
         highlightPressedBtn(e.target.id);
-        addSymbolToText(e, e.target.id);
+        addSymbolToText(e, e.target.id, "mouse");
     })
 }
 
 function keydownHandler() {
-    document.onkeydown = function (e) {
-        console.log(e.key)
-    }
     document.addEventListener("keydown", (e) => {
+        e.preventDefault();
         highlightPressedBtn(e.key);
         if (e.ctrlKey && e.key === " ") {
             changeLanguage();
         } else {
-            addSymbolToText(e, e.key);
+            addSymbolToText(e, e.key, "keyboard");
         }
     });
 }
@@ -179,20 +178,10 @@ function highlightPressedBtn(btnKey) {
     }, 200)
 }
 
-function addSymbolToText(e, key) {
-    if (key.length === 1) {
-        if (resultString.length === 0) {
-            resultString += key;
-            text.innerHTML = resultString.slice(1, resultString.length);
-        } else {
+function addSymbolToText(e, key, source) {
 
-            resultString += key;
-            text.innerHTML = resultString;
-        }
-    } else if (e.key === "Tab") {
-        e.preventDefault();
-        resultString += "hh ";
-        text.innerHTML = resultString;
+    if (key.length === 1) {
+        text.value += key;
     }
 }
 
