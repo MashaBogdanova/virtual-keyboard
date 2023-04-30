@@ -60,10 +60,10 @@ function createComponent() {
     // text.setAttribute("readonly", "true");
     body.append(text);
 
-    // Change language message
+    // System and language message
     let message = document.createElement("section");
-    message.innerHTML = "Press Control + Space to change the language";
-    message.classList.add("change-language-message");
+    message.innerHTML = "This keyboard has been implemented for Mac OS.<br>Press Control + Space to change the language";
+    message.classList.add("system-language-message");
     body.append(message);
 
     // Keyboard
@@ -179,7 +179,16 @@ function highlightPressedBtn(btnKey) {
     } else {
         btnElem = document.getElementById(btnKey);
     }
-
+    // todo: think how to handle async capsLock behavior
+    // if (btnElem === null) {
+    //     isUpperCase = !isUpperCase;
+    //     if (isUpperCase) {
+    //         btnElem = document.getElementById(btnKey.toUpperCase());
+    //     } else {
+    //         btnElem = document.getElementById(btnKey.toLowerCase());
+    //     }
+    //     rerenderKeyboardOnCapsLock();
+    // }
     btnElem.classList.add("keyboard__button_pressed");
     setTimeout(() => {
         btnElem.classList.remove("keyboard__button_pressed");
@@ -195,7 +204,6 @@ function addSymbolToText(e, key) {
     } else if (key === "Enter") {
         text.value += "\n";
     } else if (key === "CapsLock") {
-        debugger
         rerenderKeyboardOnCapsLock();
         isUpperCase = !isUpperCase;
     }
