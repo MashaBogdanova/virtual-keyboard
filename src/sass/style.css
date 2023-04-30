@@ -8,7 +8,6 @@
 .text,
 .keyboard {
   border-radius: 0.5em;
-  text-align: center;
 }
 
 .text {
@@ -19,7 +18,6 @@
   padding: 1em;
   font-size: 3em;
   color: #888888;
-  text-align: center;
   border: 5px solid #dddddd;
   resize: none;
   overflow: auto;
@@ -44,6 +42,7 @@
   background: linear-gradient(95.15deg, rgba(255, 255, 255, 0.3) 2.86%, rgba(255, 255, 255, 0) 30.59%, rgba(255, 255, 255, 0.3) 48.18%, rgba(255, 255, 255, 0.243) 64.3%, rgba(255, 255, 255, 0.3) 96.67%), #c4c4c4;
   color: #888888;
   box-shadow: 0 0.5em 0 rgba(255, 255, 255, 0.25);
+  text-align: center;
 }
 
 .keyboard__row {

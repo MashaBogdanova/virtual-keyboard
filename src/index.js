@@ -32,7 +32,7 @@ let text = null;
 let keyboard = null;
 let keyboardKeys = null;
 let arrowsWrapper = null;
-let resultString = ``;
+let isUpperCase = false;
 
 window.onload = function () {
     setLanguage();
@@ -41,7 +41,7 @@ window.onload = function () {
     keydownHandler();
 }
 
-function setLanguage () {
+function setLanguage() {
     !localStorage.getItem("keyboardLanguage") && localStorage.setItem("keyboardLanguage", "en");
     localStorage.getItem("keyboardLanguage") === "en"
         ? keyboardKeys = keyboardEngKeys
@@ -130,19 +130,27 @@ function createComponent() {
 
 function symbolClickHandler() {
     keyboard.addEventListener("click", (e) => {
+        console.log(e.target.id)
         highlightPressedBtn(e.target.id);
-        addSymbolToText(e, e.target.id, "mouse");
+        addSymbolToText(e, e.target.id);
     })
 }
 
 function keydownHandler() {
+    document.addEventListener("keyup", (e) => {
+        if (e.key === 'CapsLock') {
+            e.preventDefault();
+            highlightPressedBtn(e.key);
+            addSymbolToText(e, e.key);
+        }
+    })
     document.addEventListener("keydown", (e) => {
         e.preventDefault();
         highlightPressedBtn(e.key);
         if (e.ctrlKey && e.key === " ") {
             changeLanguage();
         } else {
-            addSymbolToText(e, e.key, "keyboard");
+            addSymbolToText(e, e.key);
         }
     });
 }
@@ -151,9 +159,9 @@ function changeLanguage() {
     const letters = document.querySelectorAll(".keyboard__letter");
     letters.forEach((letter) => {
         if (localStorage.getItem("keyboardLanguage") === 'en') {
-            rerenderKeyboard(keyboardEngKeys, keyboardRusKeys, letter);
+            rerenderKeyboardOnLanguageChange(keyboardEngKeys, keyboardRusKeys, letter);
         } else {
-            rerenderKeyboard(keyboardRusKeys, keyboardEngKeys, letter);
+            rerenderKeyboardOnLanguageChange(keyboardRusKeys, keyboardEngKeys, letter);
         }
     });
     localStorage.getItem("keyboardLanguage") === "en"
@@ -167,7 +175,7 @@ function highlightPressedBtn(btnKey) {
         if (btnKey.match(/[£!@#$%^&*()_+]/)) {
             btnKey = specialSymbols[btnKey];
         }
-        btnElem = document.getElementById(btnKey.toLowerCase());
+        btnElem = document.getElementById(btnKey);
     } else {
         btnElem = document.getElementById(btnKey);
     }
@@ -178,14 +186,22 @@ function highlightPressedBtn(btnKey) {
     }, 200)
 }
 
-function addSymbolToText(e, key, source) {
-
+function addSymbolToText(e, key) {
+    console.log(key)
     if (key.length === 1) {
         text.value += key;
+    } else if (key === "Backspace") {
+        text.value = text.value.slice(0, -1);
+    } else if (key === "Enter") {
+        text.value += "\n";
+    } else if (key === "CapsLock") {
+        debugger
+        rerenderKeyboardOnCapsLock();
+        isUpperCase = !isUpperCase;
     }
 }
 
-function rerenderKeyboard(keyboardPrev, keyboardNew, letter) {
+function rerenderKeyboardOnLanguageChange(keyboardPrev, keyboardNew, letter) {
     for (let i = 1; i < keyboardPrev.length - 1; i++) {
         let index = keyboardPrev[i].indexOf(letter.innerHTML);
         if (index !== -1) {
@@ -194,4 +210,15 @@ function rerenderKeyboard(keyboardPrev, keyboardNew, letter) {
     }
     letter.id = letter.innerHTML;
     return letter;
+}
+
+function rerenderKeyboardOnCapsLock() {
+    for (let elem of document.querySelectorAll(".keyboard__letter")) {
+        if (isUpperCase) {
+            elem.innerHTML = elem.innerHTML.toLowerCase();
+        } else {
+            elem.innerHTML = elem.innerHTML.toUpperCase();
+        }
+        elem.id = elem.innerHTML;
+    }
 }

@@ -10,7 +10,6 @@
 .text,
 .keyboard {
   border-radius: 0.5em;
-  text-align: center;
 }
 
 // Text
@@ -23,7 +22,6 @@
 
   font-size: 3em;
   color: $color-text;
-  text-align: center;
 
   border: 5px solid #dddddd;
   resize: none;
@@ -53,6 +51,7 @@
   background: $color-keyboard-background;
   color: $color-text;
   box-shadow: 0 0.5em 0 $color-keyboard-shadow;
+  text-align: center;
 }
 
 .keyboard__row {
