@@ -206,6 +206,8 @@ function addSymbolToText(e, key) {
     } else if (key === "CapsLock") {
         rerenderKeyboardOnCapsLock();
         isUpperCase = !isUpperCase;
+    } else if (key === "Tab") {
+        text.value += "\t";
     }
 }
 
