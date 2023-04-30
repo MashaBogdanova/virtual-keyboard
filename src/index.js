@@ -35,20 +35,20 @@ let arrowsWrapper = null;
 let resultString = ``;
 
 window.onload = function () {
-    if (!localStorage.getItem("keyboardLanguage")) {
-        localStorage.setItem("keyboardLanguage", "en");
-    }
+    setLanguage();
     createComponent();
     symbolClickHandler();
     keydownHandler();
 }
 
-function createComponent() {
+function setLanguage () {
+    !localStorage.getItem("keyboardLanguage") && localStorage.setItem("keyboardLanguage", "en");
     localStorage.getItem("keyboardLanguage") === "en"
         ? keyboardKeys = keyboardEngKeys
         : keyboardKeys = keyboardRusKeys;
+}
 
-
+function createComponent() {
     // Body
     const body = document.getElementsByTagName("body")[0];
     body.classList.add("body");
@@ -56,6 +56,7 @@ function createComponent() {
     // Text
     text = document.createElement("textarea");
     text.classList.add("text");
+    text.setAttribute("autofocus", "true");
     body.append(text);
 
     // Change language message
@@ -184,13 +185,14 @@ function addSymbolToText(e, key) {
             resultString += key;
             text.innerHTML = resultString.slice(1, resultString.length);
         } else {
+
             resultString += key;
             text.innerHTML = resultString;
         }
     } else if (e.key === "Tab") {
         e.preventDefault();
-        resultString += "    ";
-        text.value = resultString;
+        resultString += "hh ";
+        text.innerHTML = resultString;
     }
 }
 
