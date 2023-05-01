@@ -2,15 +2,15 @@ const keyboardEngKeys = [
     ['§£', '1!', '2@', '3#', '4$', '5%', '6^', '7&', '8*', '9(', '0)', '-_', '=+', 'Backspace'],
     ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'Enter'],
     ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", '\\'],
-    ['Shift', '`', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'Shift'],
-    ['Control', 'Alt', 'Meta', ' ', 'Meta', 'Alt', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight']
+    ['ShiftLeft', '`', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'ShiftRight'],
+    ['Control', 'AltLeft', 'MetaLeft', ' ', 'MetaRight', 'AltRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight']
 ];
 const keyboardRusKeys = [
     ['§£', '1!', '2@', '3#', '4$', '5%', '6^', '7&', '8*', '9(', '0)', '-_', '=+', 'Backspace'],
     ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'Enter'],
     ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'ё'],
-    ['Shift', ']', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', 'Shift'],
-    ['Control', 'Alt', 'Meta', ' ', 'Meta', 'Alt', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight']
+    ['ShiftLeft', ']', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', 'ShiftRight'],
+    ['Control', 'AltLeft', 'MetaLeft', ' ', 'MetaRight', 'AltRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight']
 ];
 const specialSymbols = {
     "£": "§",
@@ -47,6 +47,7 @@ function setLanguage() {
         ? keyboardKeys = keyboardEngKeys
         : keyboardKeys = keyboardRusKeys;
 }
+
 function createComponent() {
     // Body
     const body = document.getElementsByTagName("body")[0];
@@ -56,12 +57,12 @@ function createComponent() {
     text = document.createElement("textarea");
     text.classList.add("text");
     text.setAttribute("autofocus", "true");
-    // text.setAttribute("readonly", "true");
     body.append(text);
 
     // System and language message
     let message = document.createElement("section");
-    message.innerHTML = "This keyboard has been implemented for macOS<br>Press Shift + Space to change the language";
+    message.innerHTML = `<div>This keyboard has been implemented for macOS</div>
+                        <div>Press Shift + Space to change the language</div>`;
     message.classList.add("system-language-message");
     body.append(message);
 
@@ -111,7 +112,15 @@ function createComponent() {
                 keyboardBtn.append(btnSecondarySymbol);
                 keyboardBtn.append(btnPrimarySymbol);
             } else {
-                btn === "Meta" ? keyboardBtn.innerHTML = "Command" : keyboardBtn.innerHTML = btn;
+                if (btn === "MetaLeft" || btn === "MetaRight") {
+                    keyboardBtn.innerHTML = "Command";
+                } else if (btn === "ShiftLeft" || btn === "ShiftRight") {
+                    keyboardBtn.innerHTML = "Shift";
+                } else if (btn === "AltLeft" || btn === "AltRight") {
+                    keyboardBtn.innerHTML = "Option";
+                } else {
+                    keyboardBtn.innerHTML = btn;
+                }
                 keyboardBtn.classList.add("keyboard__button_m");
             }
 
@@ -133,6 +142,7 @@ function symbolClickHandler() {
         addSymbolToText(e, e.target.id);
     })
 }
+
 function keydownHandler() {
     document.addEventListener("keyup", (e) => {
         if (e.key === 'CapsLock') {
@@ -142,8 +152,9 @@ function keydownHandler() {
         }
     })
     document.addEventListener("keydown", (e) => {
+        console.log(e.key)
         e.preventDefault();
-        highlightPressedBtn(e.key);
+        highlightPressedBtn(e.key, e.code);
         if (e.shiftKey && e.key === " ") {
             changeLanguage();
         } else {
@@ -167,31 +178,29 @@ function changeLanguage() {
         : localStorage.setItem("keyboardLanguage", "en");
     console.log(localStorage.getItem("keyboardLanguage"))
 }
-function highlightPressedBtn(btnKey) {
+
+function highlightPressedBtn(symbol, btnCode) {
     let btnElem = null;
-    if (btnKey.length === 1) {
-        if (btnKey.match(/[£!@#$%^&*()_+]/)) {
-            btnKey = specialSymbols[btnKey];
+    if (symbol.length === 1) {
+        if (symbol.match(/[£!@#$%^&*()_+]/)) {
+            symbol = specialSymbols[symbol];
         }
-        btnElem = document.getElementById(btnKey);
+        btnElem = document.getElementById(symbol);
     } else {
-        btnElem = document.getElementById(btnKey);
+        if (btnCode === "ShiftLeft" || btnCode === "ShiftRight" || btnCode === "AltLeft"
+            || btnCode === "AltRight" || btnCode === "MetaLeft" || btnCode === "MetaRight") {
+            btnElem = document.getElementById(btnCode);
+        } else {
+            btnElem = document.getElementById(symbol);
+        }
     }
-    // todo: think how to handle async capsLock behavior
-    // if (btnElem === null) {
-    //     isUpperCase = !isUpperCase;
-    //     if (isUpperCase) {
-    //         btnElem = document.getElementById(btnKey.toUpperCase());
-    //     } else {
-    //         btnElem = document.getElementById(btnKey.toLowerCase());
-    //     }
-    //     rerenderKeyboardOnCapsLock();
-    // }
+
     btnElem.classList.add("keyboard__button_pressed");
     setTimeout(() => {
         btnElem.classList.remove("keyboard__button_pressed");
     }, 200)
 }
+
 function addSymbolToText(e, key) {
     if (key.length === 1) {
         text.value += key;
@@ -214,6 +223,7 @@ function addSymbolToText(e, key) {
         text.value += '⇨';
     }
 }
+
 function rerenderKeyboardOnLanguageChange(keyboardPrev, keyboardNew, elem) {
     for (let i = 1; i < keyboardPrev.length - 1; i++) {
         let index = keyboardPrev[i].indexOf(elem.id);
@@ -225,6 +235,7 @@ function rerenderKeyboardOnLanguageChange(keyboardPrev, keyboardNew, elem) {
 
     }
 }
+
 function rerenderKeyboardOnCapsLock() {
     for (let elem of document.querySelectorAll(".keyboard__letter")) {
         if (isUpperCase) {
