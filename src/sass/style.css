@@ -83,6 +83,7 @@
 .keyboard__button_pressed {
   background-color: #c3ff5e;
   box-shadow: none;
+  transform: scale(105%);
 }
 
 .keyboard__button:hover {

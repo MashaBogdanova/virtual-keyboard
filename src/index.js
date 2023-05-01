@@ -26,7 +26,7 @@ const specialSymbols = {
     ")": "0",
     "_": "-",
     "+": "="
-}
+};
 
 let text = null;
 let keyboard = null;
@@ -47,7 +47,6 @@ function setLanguage() {
         ? keyboardKeys = keyboardEngKeys
         : keyboardKeys = keyboardRusKeys;
 }
-
 function createComponent() {
     // Body
     const body = document.getElementsByTagName("body")[0];
@@ -62,7 +61,7 @@ function createComponent() {
 
     // System and language message
     let message = document.createElement("section");
-    message.innerHTML = "This keyboard has been implemented for macOS<br>Press Control + Space to change the language";
+    message.innerHTML = "This keyboard has been implemented for macOS<br>Press Shift + Space to change the language";
     message.classList.add("system-language-message");
     body.append(message);
 
@@ -134,7 +133,6 @@ function symbolClickHandler() {
         addSymbolToText(e, e.target.id);
     })
 }
-
 function keydownHandler() {
     document.addEventListener("keyup", (e) => {
         if (e.key === 'CapsLock') {
@@ -146,7 +144,7 @@ function keydownHandler() {
     document.addEventListener("keydown", (e) => {
         e.preventDefault();
         highlightPressedBtn(e.key);
-        if (e.ctrlKey && e.key === " ") {
+        if (e.shiftKey && e.key === " ") {
             changeLanguage();
         } else {
             addSymbolToText(e, e.key);
@@ -156,18 +154,19 @@ function keydownHandler() {
 
 function changeLanguage() {
     const letters = document.querySelectorAll(".keyboard__letter");
-    letters.forEach((letter) => {
+    letters.forEach((button) => {
         if (localStorage.getItem("keyboardLanguage") === 'en') {
-            rerenderKeyboardOnLanguageChange(keyboardEngKeys, keyboardRusKeys, letter);
+            rerenderKeyboardOnLanguageChange(keyboardEngKeys, keyboardRusKeys, button);
         } else {
-            rerenderKeyboardOnLanguageChange(keyboardRusKeys, keyboardEngKeys, letter);
+            rerenderKeyboardOnLanguageChange(keyboardRusKeys, keyboardEngKeys, button);
         }
     });
+
     localStorage.getItem("keyboardLanguage") === "en"
         ? localStorage.setItem("keyboardLanguage", "ru")
         : localStorage.setItem("keyboardLanguage", "en");
+    console.log(localStorage.getItem("keyboardLanguage"))
 }
-
 function highlightPressedBtn(btnKey) {
     let btnElem = null;
     if (btnKey.length === 1) {
@@ -193,7 +192,6 @@ function highlightPressedBtn(btnKey) {
         btnElem.classList.remove("keyboard__button_pressed");
     }, 200)
 }
-
 function addSymbolToText(e, key) {
     if (key.length === 1) {
         text.value += key;
@@ -216,18 +214,17 @@ function addSymbolToText(e, key) {
         text.value += '⇨';
     }
 }
-
-function rerenderKeyboardOnLanguageChange(keyboardPrev, keyboardNew, letter) {
+function rerenderKeyboardOnLanguageChange(keyboardPrev, keyboardNew, elem) {
     for (let i = 1; i < keyboardPrev.length - 1; i++) {
-        let index = keyboardPrev[i].indexOf(letter.innerHTML);
-        if (index !== -1) {
-            letter.innerHTML = keyboardNew[i][index];
+        let index = keyboardPrev[i].indexOf(elem.id);
+        if (index !== -1 && elem.id.length === 1) {
+            elem.innerHTML = keyboardNew[i][index];
+            elem.id = elem.innerHTML;
         }
-    }
-    letter.id = letter.innerHTML;
-    return letter;
-}
+        console.log(elem.innerHTML, elem.id)
 
+    }
+}
 function rerenderKeyboardOnCapsLock() {
     for (let elem of document.querySelectorAll(".keyboard__letter")) {
         if (isUpperCase) {
