@@ -61,7 +61,6 @@ function setLanguage() {
     keyboardLanguage = localStorage.getItem("keyboardLanguage") || "en";
     keyboardKeys = keyboardLanguage === "en" ? keyboardEngKeys : keyboardRusKeys;
 }
-
 function createComponent() {
     // Body
     const body = document.getElementsByTagName("body")[0];
@@ -142,7 +141,6 @@ function symbolClickHandler() {
         addSymbolToText(e, e.target.id);
     })
 }
-
 function keydownHandler() {
     document.addEventListener("keyup", (e) => {
         if (e.key === 'CapsLock') {
@@ -175,7 +173,6 @@ function changeLanguage() {
     keyboardLanguage = keyboardLanguage === "en" ? "ru" : "en";
     localStorage.setItem("keyboardLanguage", keyboardLanguage);
 }
-
 function highlightPressedBtn(symbol, btnCode) {
     let btnElem = null;
     if (symbol.length === 1) {
@@ -201,7 +198,6 @@ function highlightPressedBtn(symbol, btnCode) {
         btnElem.classList.remove("keyboard__button_pressed");
     }, 200)
 }
-
 function addSymbolToText(e, key) {
     if (key.length === 1) {
         if (e.shiftKey && key) {
@@ -228,7 +224,6 @@ function addSymbolToText(e, key) {
         text.value += '⇨';
     }
 }
-
 function rerenderKeyboardOnLanguageChange(keyboardPrev, keyboardNew, elem) {
     for (let i = 1; i < keyboardPrev.length - 1; i++) {
         let index = keyboardPrev[i].indexOf(elem.id);
@@ -238,7 +233,6 @@ function rerenderKeyboardOnLanguageChange(keyboardPrev, keyboardNew, elem) {
         }
     }
 }
-
 function rerenderKeyboardOnCapsLock() {
     for (let elem of document.querySelectorAll(".keyboard__letter")) {
         if (isUpperCase) {
