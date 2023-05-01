@@ -99,6 +99,11 @@
   box-shadow: none;
 }
 
+.keyboard__button:hover {
+  background-color: $color-btn-pressed;
+  box-shadow: none;
+}
+
 .keyboard__secondary-symbol {
   font-size: 20px;
 }

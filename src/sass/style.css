@@ -85,6 +85,11 @@
   box-shadow: none;
 }
 
+.keyboard__button:hover {
+  background-color: #c3ff5e;
+  box-shadow: none;
+}
+
 .keyboard__secondary-symbol {
   font-size: 20px;
 }

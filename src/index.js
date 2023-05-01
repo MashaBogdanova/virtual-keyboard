@@ -62,7 +62,7 @@ function createComponent() {
 
     // System and language message
     let message = document.createElement("section");
-    message.innerHTML = "This keyboard has been implemented for Mac OS.<br>Press Control + Space to change the language";
+    message.innerHTML = "This keyboard has been implemented for macOS<br>Press Control + Space to change the language";
     message.classList.add("system-language-message");
     body.append(message);
 
@@ -130,7 +130,6 @@ function createComponent() {
 
 function symbolClickHandler() {
     keyboard.addEventListener("click", (e) => {
-        console.log(e.target.id)
         highlightPressedBtn(e.target.id);
         addSymbolToText(e, e.target.id);
     })
@@ -196,7 +195,6 @@ function highlightPressedBtn(btnKey) {
 }
 
 function addSymbolToText(e, key) {
-    console.log(key)
     if (key.length === 1) {
         text.value += key;
     } else if (key === "Backspace") {
@@ -208,6 +206,14 @@ function addSymbolToText(e, key) {
         isUpperCase = !isUpperCase;
     } else if (key === "Tab") {
         text.value += "\t";
+    } else if (key === "ArrowLeft") {
+        text.value += "⇦";
+    } else if (key === "ArrowUp") {
+        text.value += '⇧';
+    } else if (key === "ArrowDown") {
+        text.value += '⇩';
+    } else if (key === "ArrowRight") {
+        text.value += '⇨';
     }
 }
 
