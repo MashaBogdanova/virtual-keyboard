@@ -184,7 +184,9 @@ function highlightPressedBtn(symbol, btnCode) {
         } else if (keyboardLanguage === "ru" && symbol.match(/[<!"№%:,.;()_+]/)) {
             symbol = specialSymbolsRu[symbol];
         }
-        btnElem = document.getElementById(symbol);
+        isUpperCase
+            ? btnElem = document.getElementById(symbol)
+            : btnElem = document.getElementById(symbol.toLowerCase());
     } else {
         if (btnCode === "ShiftLeft" || btnCode === "ShiftRight" || btnCode === "AltLeft"
             || btnCode === "AltRight" || btnCode === "MetaLeft" || btnCode === "MetaRight") {
@@ -202,7 +204,11 @@ function highlightPressedBtn(symbol, btnCode) {
 
 function addSymbolToText(e, key) {
     if (key.length === 1) {
-        text.value += key;
+        if (e.shiftKey && key) {
+            text.value += key.toUpperCase();
+        } else {
+            text.value += key;
+        }
     } else if (key === "Backspace") {
         text.value = text.value.slice(0, -1);
     } else if (key === "Enter") {
