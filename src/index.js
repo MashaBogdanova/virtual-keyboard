@@ -6,13 +6,13 @@ const keyboardEngKeys = [
     ['Control', 'AltLeft', 'MetaLeft', ' ', 'MetaRight', 'AltRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight']
 ];
 const keyboardRusKeys = [
-    ['§£', '1!', '2@', '3#', '4$', '5%', '6^', '7&', '8*', '9(', '0)', '-_', '=+', 'Backspace'],
+    ['§<', '1!', '2"', '3№', '4%', '5:', '6,', '7.', '8;', '9(', '0)', '-_', '=+', 'Backspace'],
     ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'Enter'],
     ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'ё'],
     ['ShiftLeft', ']', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '/', 'ShiftRight'],
     ['Control', 'AltLeft', 'MetaLeft', ' ', 'MetaRight', 'AltRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight']
 ];
-const specialSymbols = {
+const specialSymbolsEn = {
     "£": "§",
     "!": "1",
     "@": "2",
@@ -27,12 +27,28 @@ const specialSymbols = {
     "_": "-",
     "+": "="
 };
+const specialSymbolsRu = {
+    "<": "§",
+    "!": "1",
+    '"': "2",
+    "№": "3",
+    "%": "4",
+    ":": "5",
+    ",": "6",
+    ".": "7",
+    ";": "8",
+    "(": "9",
+    ")": "0",
+    "_": "-",
+    "+": "="
+};
 
 let text = null;
 let keyboard = null;
 let keyboardKeys = null;
 let arrowsWrapper = null;
 let isUpperCase = false;
+let keyboardLanguage = null;
 
 window.onload = function () {
     setLanguage();
@@ -42,10 +58,8 @@ window.onload = function () {
 }
 
 function setLanguage() {
-    !localStorage.getItem("keyboardLanguage") && localStorage.setItem("keyboardLanguage", "en");
-    localStorage.getItem("keyboardLanguage") === "en"
-        ? keyboardKeys = keyboardEngKeys
-        : keyboardKeys = keyboardRusKeys;
+    keyboardLanguage = localStorage.getItem("keyboardLanguage") || "en";
+    keyboardKeys = keyboardLanguage === "en" ? keyboardEngKeys : keyboardRusKeys;
 }
 
 function createComponent() {
@@ -69,18 +83,15 @@ function createComponent() {
     // Keyboard
     keyboard = document.createElement("section");
     keyboard.classList.add("keyboard");
-
-    keyboardKeys.forEach((row) => {
+    for (const row of keyboardKeys) {
         let keyboardRow = document.createElement("div");
         keyboardRow.classList.add("keyboard__row");
-
-        row.forEach((btn) => {
+        for (const btn of row) {
             let keyboardBtn = document.createElement("button");
             keyboardBtn.classList.add("keyboard__button");
             btn.length === 2
                 ? keyboardBtn.setAttribute("id", btn[0])
                 : keyboardBtn.setAttribute("id", btn);
-
             if (btn === " ") {
                 keyboardBtn.classList.add("keyboard__button_l");
             } else if (btn === "ArrowLeft") {
@@ -99,18 +110,8 @@ function createComponent() {
                 keyboardBtn.innerHTML = btn;
                 keyboardBtn.classList.add("keyboard__letter");
             } else if (btn.length === 2) {
-                // Button primary symbol
-                let btnSymbols = btn.split("");
-                let btnPrimarySymbol = document.createElement("span");
-                btnPrimarySymbol.innerHTML = btnSymbols[0];
-
-                // Button secondary symbol
-                let btnSecondarySymbol = document.createElement("span");
-                btnSecondarySymbol.classList.add("keyboard__secondary-symbol");
-                btnSecondarySymbol.innerHTML = btnSymbols[1];
-
-                keyboardBtn.append(btnSecondarySymbol);
-                keyboardBtn.append(btnPrimarySymbol);
+                const [primary, secondary] = btn.split("");
+                keyboardBtn.innerHTML = `<span>${primary}</span><span class="keyboard__secondary-symbol">${secondary}</span>`;
             } else {
                 if (btn === "MetaLeft" || btn === "MetaRight") {
                     keyboardBtn.innerHTML = "Command";
@@ -129,10 +130,9 @@ function createComponent() {
             } else {
                 keyboardRow.append(keyboardBtn);
             }
-        })
+        }
         keyboard.append(keyboardRow);
-    })
-
+    }
     body.append(keyboard);
 }
 
@@ -165,25 +165,24 @@ function keydownHandler() {
 
 function changeLanguage() {
     const letters = document.querySelectorAll(".keyboard__letter");
-    letters.forEach((button) => {
-        if (localStorage.getItem("keyboardLanguage") === 'en') {
+    for (const button of letters) {
+        if (keyboardLanguage === 'en') {
             rerenderKeyboardOnLanguageChange(keyboardEngKeys, keyboardRusKeys, button);
         } else {
             rerenderKeyboardOnLanguageChange(keyboardRusKeys, keyboardEngKeys, button);
         }
-    });
-
-    localStorage.getItem("keyboardLanguage") === "en"
-        ? localStorage.setItem("keyboardLanguage", "ru")
-        : localStorage.setItem("keyboardLanguage", "en");
-    console.log(localStorage.getItem("keyboardLanguage"))
+    }
+    keyboardLanguage = keyboardLanguage === "en" ? "ru" : "en";
+    localStorage.setItem("keyboardLanguage", keyboardLanguage);
 }
 
 function highlightPressedBtn(symbol, btnCode) {
     let btnElem = null;
     if (symbol.length === 1) {
-        if (symbol.match(/[£!@#$%^&*()_+]/)) {
-            symbol = specialSymbols[symbol];
+        if (keyboardLanguage === "en" && symbol.match(/[£!@#$%^&*()_+]/)) {
+            symbol = specialSymbolsEn[symbol];
+        } else if (keyboardLanguage === "ru" && symbol.match(/[<!"№%:,.;()_+]/)) {
+            symbol = specialSymbolsRu[symbol];
         }
         btnElem = document.getElementById(symbol);
     } else {
@@ -231,8 +230,6 @@ function rerenderKeyboardOnLanguageChange(keyboardPrev, keyboardNew, elem) {
             elem.innerHTML = keyboardNew[i][index];
             elem.id = elem.innerHTML;
         }
-        console.log(elem.innerHTML, elem.id)
-
     }
 }
 
