@@ -1,0 +1,10 @@
+{
+  "name": "virtual-keyboard",
+  "version": "1.0.0",
+  "scripts": {
+    "style": "sass --watch src/sass/style.scss src/sass/style.css"
+  },
+  "devDependencies": {
+    "eslint": "^8.39.0"
+  }
+}
