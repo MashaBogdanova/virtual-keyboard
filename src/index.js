@@ -50,18 +50,11 @@ let arrowsWrapper = null;
 let isUpperCase = false;
 let keyboardLanguage = null;
 
-window.onload = function () {
-    setLanguage();
-    createComponent();
-    symbolClickHandler();
-    keydownHandler();
-}
-
-function setLanguage() {
+const setLanguage = () => {
     keyboardLanguage = localStorage.getItem("keyboardLanguage") || "en";
     keyboardKeys = keyboardLanguage === "en" ? keyboardEngKeys : keyboardRusKeys;
-}
-function createComponent() {
+};
+const createComponent = () => {
     // Body
     const body = document.getElementsByTagName("body")[0];
     body.classList.add("body");
@@ -133,15 +126,19 @@ function createComponent() {
         keyboard.append(keyboardRow);
     }
     body.append(keyboard);
-}
+};
 
-function symbolClickHandler() {
+const symbolClickHandler = () => {
     keyboard.addEventListener("click", (e) => {
-        highlightPressedBtn(e.target.closest(".keyboard__button").id);
-        addSymbolToText(e, e.target.closest(".keyboard__button").id);
+        if (e.target.matches(".keyboard")) {
+            console.warn("Press the button to write");
+        } else {
+            highlightPressedBtn(e.target.closest(".keyboard__button").id);
+            addSymbolToText(e, e.target.closest(".keyboard__button").id);
+        }
     })
-}
-function keydownHandler() {
+};
+const keydownHandler = () => {
     document.addEventListener("keyup", (e) => {
         if (e.key === 'CapsLock') {
             e.preventDefault();
@@ -159,7 +156,7 @@ function keydownHandler() {
             addSymbolToText(e, e.key);
         }
     });
-}
+};
 
 function changeLanguage() {
     const letters = document.querySelectorAll(".keyboard__letter");
@@ -243,4 +240,11 @@ function rerenderKeyboardOnCapsLock() {
         }
         elem.id = elem.innerHTML;
     }
+}
+
+window.onload = () => {
+    setLanguage();
+    createComponent();
+    symbolClickHandler();
+    keydownHandler();
 }
