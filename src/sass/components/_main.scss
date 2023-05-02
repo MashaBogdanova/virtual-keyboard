@@ -83,25 +83,23 @@
   border-radius: 4px;
 
   transition: all 400ms ease-out;
-}
 
-.keyboard__button_m {
-  width: 90px;
-}
-
-.keyboard__button_l {
-  width: 252px;
-}
-
-.keyboard__button_pressed {
-  background-color: $color-btn-pressed;
-  box-shadow: none;
-  transform: scale(105%);
-}
-
-.keyboard__button:hover {
-  background-color: $color-btn-pressed;
-  box-shadow: none;
+  &_m {
+    width: 90px;
+  }
+  &_l {
+    width: 252px;
+  }
+  &_pressed {
+    background-color: $color-btn-pressed;
+    box-shadow: none;
+    transform: scale(105%);
+  }
+  &:hover {
+    background-color: $color-btn-pressed;
+    box-shadow: none;
+    cursor: pointer;
+  }
 }
 
 .keyboard__secondary-symbol {

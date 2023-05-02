@@ -137,8 +137,8 @@ function createComponent() {
 
 function symbolClickHandler() {
     keyboard.addEventListener("click", (e) => {
-        highlightPressedBtn(e.target.id);
-        addSymbolToText(e, e.target.id);
+        highlightPressedBtn(e.target.closest(".keyboard__button").id);
+        addSymbolToText(e, e.target.closest(".keyboard__button").id);
     })
 }
 function keydownHandler() {
@@ -184,6 +184,7 @@ function highlightPressedBtn(symbol, btnCode) {
         isUpperCase
             ? btnElem = document.getElementById(symbol)
             : btnElem = document.getElementById(symbol.toLowerCase());
+
     } else {
         if (btnCode === "ShiftLeft" || btnCode === "ShiftRight" || btnCode === "AltLeft"
             || btnCode === "AltRight" || btnCode === "MetaLeft" || btnCode === "MetaRight") {
